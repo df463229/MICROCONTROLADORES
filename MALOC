@@ -1,0 +1,53 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Alumno {
+    char nombre[50];
+    int matricula;
+    int edad;
+};
+
+int main() {
+    FILE* archivo = fopen("alumnos.txt", "w"); // Abrir el archivo en modo escritura
+
+    if (archivo == NULL) {
+        printf("Error al abrir el archivo.\n");
+        return 1;
+    }
+
+    struct Alumno* alumno; /*declaro PTR Alumno*/
+    int opcion;
+
+    while (1) {
+        printf("1. Agregar alumno\n");
+        printf("2. Salir\n");
+        printf("Ingrese una opción: ");
+        scanf("%d", &opcion);
+
+        if (opcion == 1) {
+            alumno = (struct Alumno*)malloc(sizeof(struct Alumno));
+
+            printf("Ingrese el nombre del alumno: ");
+            scanf("%s", alumno->nombre);
+
+            printf("Ingrese la matrícula del alumno: ");
+            scanf("%d", &alumno->matricula);
+
+            printf("Ingrese la edad del alumno: ");
+            scanf("%d", &alumno->edad);
+
+            // Escribir los datos del alumno en el archivo
+            fprintf(archivo, "Nombre: %s, Matrícula: %d, Edad: %d\n", alumno->nombre, alumno->matricula, alumno->edad);
+
+            free(alumno);
+        } else if (opcion == 2) {
+            break;
+        } else {
+            printf("Opción inválida. Por favor, ingrese una opción válida.\n");
+        }
+    }
+
+    fclose(archivo); // Cerrar el archivo
+
+    return 0;
+}
